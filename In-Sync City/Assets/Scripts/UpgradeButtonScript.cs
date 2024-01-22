@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UpgradeButtonScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private UpgradeScript targetBuilding;
+
+    public Button upgradeButton;
+
+    public void UpgradeActivated()
     {
-        
+        if(targetBuilding != null)
+        {
+            targetBuilding.UpgradeBuilding();
+        }
+        else
+        {
+            Debug.Log("No target building was found!");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void setTargetBuilding(UpgradeScript building)
     {
-        
+        targetBuilding = building;
     }
 }

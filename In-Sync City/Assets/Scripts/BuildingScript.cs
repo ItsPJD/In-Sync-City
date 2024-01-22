@@ -1,18 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using System;
 
 public class BuildingScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float timeSinceLastCurrency;
+    public float currencyInterval = 1f;
+
+    public UpgradeScript upgrade;
+
+    public CurrencyScript overallCurrency;
+
+    public float getCurrencyInterval()
     {
-        
+        return currencyInterval;
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        timeSinceLastCurrency = Time.realtimeSinceStartup;
+    }
     void Update()
     {
+
+        long addedCurrency = upgrade.currencyIncrease;
+
+        Application.runInBackground = true;
         
+        float timer = Time.realtimeSinceStartup - timeSinceLastCurrency;
+
+        if (timer >= currencyInterval)
+        {
+            overallCurrency.AddCurrency(addedCurrency);
+
+            timeSinceLastCurrency = Time.realtimeSinceStartup;
+        }
     }
+
 }

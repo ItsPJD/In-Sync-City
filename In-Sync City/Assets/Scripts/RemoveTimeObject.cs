@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class RemoveTimeObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public UIMenu uiMenu;
 
-    // Update is called once per frame
-    void Update()
+    public void RemoveThisTime()
     {
-        
+        uiMenu.RemoveTime(this.gameObject);
     }
 }
