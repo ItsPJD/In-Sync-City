@@ -175,6 +175,11 @@ public class UIMenu : MonoBehaviour, IDataPersistence
         return this.dateTimeListWorkOrRelax;
     }
 
+    public void InitialiseHealthScriptData()
+    {
+        healthScript.StartInitialize();
+    }
+
     public void LoadData(GameData data)
     {
         this.dateTimeListData = data.dateTimeListData.Select(str => DateTime.ParseExact(str, "HH:mm", System.Globalization.CultureInfo.InvariantCulture)).ToList();
@@ -185,6 +190,7 @@ public class UIMenu : MonoBehaviour, IDataPersistence
         }
 
         this.dateTimeListWorkOrRelax = data.dateTimeWorkOrRelax;
+        InitialiseHealthScriptData();
     }
 
     public void SaveData(ref GameData data)

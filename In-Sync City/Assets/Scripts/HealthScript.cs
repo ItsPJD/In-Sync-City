@@ -38,15 +38,7 @@ public class HealthScript : MonoBehaviour
         relaxObject.SetActive(false);
     }
 
-    // private void Start()
-    // {
-    //     healthTimeData = uiMenu.GetDateTimeListData();
-    //     healthTimeWorkOrRelax = uiMenu.GetWorkOrRelax();
-
-    //     FindClosestDateTime(healthTimeData);
-    // }
-
-    private void Start()
+    public void StartInitialize()
     {
         healthTimeData = uiMenu.GetDateTimeListData();
         healthTimeWorkOrRelax = uiMenu.GetWorkOrRelax();
@@ -65,7 +57,6 @@ public class HealthScript : MonoBehaviour
 
     private void Update()
     {
-
         healthText.text = playerHealth.ToString();
 
         DateTime checkingTimeNow = DateTime.Now;
