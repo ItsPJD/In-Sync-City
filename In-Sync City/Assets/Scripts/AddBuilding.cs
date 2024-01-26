@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -19,7 +20,9 @@ public class AddBuilding : MonoBehaviour, IDataPersistence
 
     public GameObject upgradeButton;
 
-    public int buildingCost = 0;
+    public long buildingCost = 0;
+
+    public TextMeshProUGUI buildingCostText;
 
     public CurrencyScript currencyScript;
 
@@ -36,9 +39,15 @@ public class AddBuilding : MonoBehaviour, IDataPersistence
 
         else
         {
+            currencyScript.SpendCurrency(buildingCost);
             ActivateBuilding();
         }
 
+     }
+
+     public void Start()
+     {
+         buildingCostText.text = buildingCost.ToString();
      }
 
      public void ActivateBuilding()

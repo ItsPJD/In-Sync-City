@@ -38,16 +38,34 @@ public class HealthScript : MonoBehaviour
         relaxObject.SetActive(false);
     }
 
+    // private void Start()
+    // {
+    //     healthTimeData = uiMenu.GetDateTimeListData();
+    //     healthTimeWorkOrRelax = uiMenu.GetWorkOrRelax();
+
+    //     FindClosestDateTime(healthTimeData);
+    // }
+
     private void Start()
     {
         healthTimeData = uiMenu.GetDateTimeListData();
         healthTimeWorkOrRelax = uiMenu.GetWorkOrRelax();
 
-        FindClosestDateTime(healthTimeData);
+        // Validate the obtained lists
+        if (healthTimeData != null && healthTimeWorkOrRelax != null && healthTimeData.Count > 0 && healthTimeData.Count == healthTimeWorkOrRelax.Count)
+        {
+            FindClosestDateTime(healthTimeData);
+        }
+
+        else
+        {
+            Debug.Log("Invalid or empty data obtained from uiMenu.");
+        }
     }
 
     private void Update()
     {
+
         healthText.text = playerHealth.ToString();
 
         DateTime checkingTimeNow = DateTime.Now;

@@ -39,7 +39,7 @@ public class CurrencyScript : MonoBehaviour, IDataPersistence
     }
 
 
-    public void Update()
+    private void Update()
     {
         currencyText.SetText(totalCurrency.ToString());
         heartgemText.SetText(totalHeartgems.ToString());
