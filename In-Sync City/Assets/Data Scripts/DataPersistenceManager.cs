@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class DataPersistenceManager : MonoBehaviour
 {
     [Header("Debugging")]
+    [SerializeField] private bool disableDataPersistence = false;
     [SerializeField] private bool allowDataTestingInScene = false;
 //The header is here to give overall explanation in the editor to what the file name variable is for.
 // The SerializeField here allows for the fileName to be set and changed in the editor, but still allows for the variable to be set to private so that it cannot be changed by any other script.
@@ -21,6 +22,7 @@ public class DataPersistenceManager : MonoBehaviour
 
 // References the FileDataHandler class, we will use this to reference the FileDataHandler method to create a directory and fileName for the data that we will be saving.
     private FileDataHandler dataHandler;
+    private string selectedProfileId = "";
     public static DataPersistenceManager instance {get; private set; }
 
     private void Awake()
@@ -34,8 +36,15 @@ public class DataPersistenceManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(this.gameObject);
 
+        if(disableDataPersistence)
+        {
+            Debug.LogWarning("Data persistence has been disabled!");
+        }
+
         //When the game starts, the path for the file in which the data is stored becomes equal to the variable name "dataHandler".
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+
+        this.selectedProfileId = dataHandler.GetLastUpdatedProfileId();
     }
 
     private void OnEnable()
@@ -63,6 +72,12 @@ public class DataPersistenceManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
+
+    public void ChangeSelectedProfileId(string newProfileId)
+    {
+        this.selectedProfileId = newProfileId;
+        LoadGame();
+    }
     public void NewGame()
     {
         //Called if data in GameData is equal to "null" (there is no data). The gameData variable becomes equal to the values stored in the GameData method in the GameData script, which holds the default values for all data stored there.
@@ -71,6 +86,11 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
+        if(disableDataPersistence)
+        {
+            return;
+        }
+
         if(this.gameData == null)
         {
             Debug.Log("No data to save! A new game must be started in order to save data.");
@@ -82,15 +102,19 @@ public class DataPersistenceManager : MonoBehaviour
             dataPersistObj.SaveData(ref gameData);
         }
 
-        dataHandler.Save(gameData);
-        
-        Debug.Log("isOwned = " + gameData.isOwned);
-        Debug.Log("currencyIncrease = " +gameData.currencyIncrease);
+        gameData.lastUpdated = System.DateTime.Now.ToBinary();
+
+        dataHandler.Save(gameData, selectedProfileId);
     }
 
     public void LoadGame()
     {
-        this.gameData = dataHandler.Load();
+        if(disableDataPersistence)
+        {
+            return;
+        }
+
+        this.gameData = dataHandler.Load(selectedProfileId);
 
         //This is for debugging. If we want to test the default screen scene on its own without going through the menu to have game data to load, we can use this to bypass this issue and allow testing
         // of data persistence without the main menu scene.
@@ -131,5 +155,10 @@ public class DataPersistenceManager : MonoBehaviour
     public bool hasGameData()
     {
         return gameData != null;
+    }
+
+    public Dictionary<string, GameData> GetAllProfilesGameData()
+    {
+        return dataHandler.LoadAllProfiles();
     }
 }

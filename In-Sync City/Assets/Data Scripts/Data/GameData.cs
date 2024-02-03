@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    public long lastUpdated;
     public long totalCurrency;
     public int totalHeartgems;
     public SerializableDictionary<string, bool> isOwned;

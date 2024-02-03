@@ -17,9 +17,14 @@ public class FileDataHandler
         this.dataFileName = dataFileName;
     }
 
-    public GameData Load()
+    public GameData Load(string profileId)
     {
-        string completePath = Path.Combine(dataDirectoryPath, dataFileName);
+        if(profileId == null)
+        {
+            return null;
+        }
+
+        string completePath = Path.Combine(dataDirectoryPath, profileId, dataFileName);
         GameData loadedData = null;
         if(File.Exists(completePath))
         {
@@ -45,9 +50,14 @@ public class FileDataHandler
         return loadedData;
         }
 
-    public void Save(GameData data)
+    public void Save(GameData data, string profileId)
     {
-        string completePath = Path.Combine(dataDirectoryPath, dataFileName);
+        if(profileId == null)
+        {
+            return;
+        }
+
+        string completePath = Path.Combine(dataDirectoryPath, profileId, dataFileName);
 
         try
         {
@@ -55,7 +65,7 @@ public class FileDataHandler
 
             string storedData = JsonUtility.ToJson(data, true);
 
-            //using the "using()" block ensures that file is closed once it has been written to read from method.
+            //using() makes sure that once the file has been read and written, it will close properly.
             using(FileStream stream = new FileStream(completePath, FileMode.Create))
             {
                 using(StreamWriter writer = new StreamWriter(stream))
@@ -68,5 +78,74 @@ public class FileDataHandler
         {
             Debug.LogError("Error occured while trying to save data to: " +completePath + "\n" + e);
         }
+    }
+
+    public Dictionary<string, GameData> LoadAllProfiles()
+    {
+        Dictionary<string, GameData> profileDictionary = new Dictionary<string, GameData>();
+
+        IEnumerable<DirectoryInfo> dirInfos = new DirectoryInfo(dataDirectoryPath).EnumerateDirectories();
+
+        foreach (DirectoryInfo dirInfo in dirInfos)
+        {
+            string profileId = dirInfo.Name;
+
+            string completePath = Path.Combine(dataDirectoryPath, profileId, dataFileName);
+            if(!File.Exists(completePath))
+            {
+                Debug.LogWarning("Skipping directory when loading all profiles because it does not contain data: " + profileId);
+                continue;
+            }
+
+            GameData profileData = Load(profileId);
+            if(profileData != null)
+            {
+                profileDictionary.Add(profileId, profileData);
+            }
+
+            else
+            {
+                Debug.LogError("Tried to load profile, but something went wrong. ProfileId: " + profileId);
+            }
+        }
+
+        return profileDictionary;
+    }
+
+    public string GetLastUpdatedProfileId()
+    {
+        string mostRecentProfileId = null;
+
+        Dictionary<string, GameData> profilesGameData = LoadAllProfiles();
+
+        foreach(KeyValuePair<string, GameData> pair in profilesGameData)
+        {
+            string profileId = pair.Key;
+            GameData gameData = pair.Value;
+
+            if(gameData == null)
+            {
+                continue;
+            }
+
+            if(mostRecentProfileId == null)
+            {
+                mostRecentProfileId = profileId;
+            }
+
+            else
+            {
+                DateTime mostRecentDateTime = DateTime.FromBinary(profilesGameData[mostRecentProfileId].lastUpdated);
+                DateTime newDateTime = DateTime.FromBinary(gameData.lastUpdated);
+
+                if(newDateTime > mostRecentDateTime)
+                {
+                    mostRecentProfileId = profileId;
+                }
+
+            }
+        }
+
+        return mostRecentProfileId;
     }
 }
