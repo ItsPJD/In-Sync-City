@@ -152,11 +152,23 @@ public class HealthScript : MonoBehaviour
         DateTime currentTime = DateTime.Now;
 
         DateTime closestDateTime = dateTimeList.Where(time => time <= currentTime).OrderBy(dt => Math.Abs((dt - currentTime).TotalMinutes)).FirstOrDefault();
-        
-        int indexValueOfClosestTime = healthTimeData.IndexOf(closestDateTime);
-        float closestTimeWorkOrRelax = healthTimeWorkOrRelax[indexValueOfClosestTime];
+        Debug.Log("Closest DateTime - " + closestDateTime);
 
-        WorkOrRelax(closestTimeWorkOrRelax);
+        int indexValueOfClosestTime = healthTimeData.IndexOf(closestDateTime);
+
+        // If indexValueOfClosestTime returns -1, it means that it did not find a time that existed in the list that matched the closestDateTime, which will typically be the "Default" 00:00.
+        if(indexValueOfClosestTime <= -1)
+        {
+            //If the first time of the day has not been reached once the time reaches 00:00, it will default the work or relax state to the last time in the list, as this will be the one that is continued until the next day.
+            float lastDateTimeWorkOrRelax = healthTimeWorkOrRelax.Last();
+            WorkOrRelax(lastDateTimeWorkOrRelax);
+        }
+
+        else
+        {
+            float closestTimeWorkOrRelax = healthTimeWorkOrRelax[indexValueOfClosestTime];
+            WorkOrRelax(closestTimeWorkOrRelax);
+        }
 
     }
 

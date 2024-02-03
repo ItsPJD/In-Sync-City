@@ -83,6 +83,7 @@ public class DataPersistenceManager : MonoBehaviour
         }
 
         dataHandler.Save(gameData);
+        
         Debug.Log("isOwned = " + gameData.isOwned);
         Debug.Log("currencyIncrease = " +gameData.currencyIncrease);
     }
