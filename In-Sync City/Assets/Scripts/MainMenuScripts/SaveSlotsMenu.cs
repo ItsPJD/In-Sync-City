@@ -9,6 +9,8 @@ public class SaveSlotsMenu : MonoBehaviour
     [SerializeField] private MainMenu mainMenu;
 
     [SerializeField] private Button backButton;
+    [SerializeField] private GameObject overwritePanel;
+    
 
     private bool isLoadingGame = false;
     private SaveSlot[] saveSlots;
@@ -16,6 +18,7 @@ public class SaveSlotsMenu : MonoBehaviour
     private void Awake()
     {
         saveSlots = this.GetComponentsInChildren<SaveSlot>();
+        overwritePanel.SetActive(false);
     }
 
     public void OnSaveSlotClicked(SaveSlot saveSlot)
@@ -26,10 +29,14 @@ public class SaveSlotsMenu : MonoBehaviour
 
         if(!isLoadingGame)
         {
-            DataPersistenceManager.instance.NewGame();
+            overwritePanel.SetActive(true);
         }
 
-        SceneManager.LoadSceneAsync("DefaultScreen");
+        else
+        {
+            SceneManager.LoadSceneAsync("DefaultScreen");
+        }
+
     }
 
     public void OnBackClicked()
@@ -76,5 +83,27 @@ public class SaveSlotsMenu : MonoBehaviour
         }
 
         backButton.interactable = false;
+    }
+
+    public void EnableMenuButtons()
+    {
+        foreach(SaveSlot saveSlot in saveSlots)
+        {
+            saveSlot.SetInteractable(true);
+        }
+
+        backButton.interactable = true;
+    }
+
+    public void NoOverwrite()
+    {
+        overwritePanel.SetActive(false);
+        EnableMenuButtons();
+    }
+
+    public void ConfirmOverwrite()
+    {
+        DataPersistenceManager.instance.NewGame();
+        SceneManager.LoadSceneAsync("DefaultScreen");
     }
 }

@@ -7,39 +7,32 @@ using UnityEngine.UI;
 
 public class UpgradeScript : MonoBehaviour, IDataPersistence
 {
-
+   [Header("Room ID")]
    [SerializeField] private string id;
-    public long currencyIncrease = 1;
-
+   [Header("Coin Generated")]
+   [SerializeField] private long currencyIncrease = 1;
     [SerializeField] private int currencyUpgrade = 1;
-
-    public int currentLvl = 1;
-
+    [Header("Level")]
+    [SerializeField] private int currentLvl = 1;
     private int maxLvl = 30;
-
-    public long upgradeCostCoins = 50;
-    public int upgradeCostHeartgems = 1;
-
+    [Header("Upgrade Costs")]
+    [SerializeField] private long upgradeCostCoins = 50;
+    [SerializeField] private int upgradeCostHeartgems = 1;
     [SerializeField] private long upgradeCostIncrement = 25;
-
     [SerializeField] private int upgradeCostHeartgemsIncrement = 1;
     public CurrencyScript currencyScript;
-
-    public string buildingName;
-
-    public TextMeshProUGUI buildingNameText;
-    public TextMeshProUGUI buildingCurrentLevelText;
-    public TextMeshProUGUI buildingNextLevelText;
-    public TextMeshProUGUI buildingCostText;
-    public TextMeshProUGUI buildingCurrentCoinGenerationText;
-    public TextMeshProUGUI buildingNextCoinGenerationText;
-
-    public TextMeshProUGUI buildingHeartGemCostText;
-    public GameObject buildingDisplayPanel;
-
-    public UpgradeButtonScript upgradeButton;
-
-    public BuildingScript buildingScript;
+    [Header("Room Display")]
+    [SerializeField] private string buildingName;
+    [SerializeField] private TextMeshProUGUI buildingNameText;
+    [SerializeField] private TextMeshProUGUI buildingCurrentLevelText;
+    [SerializeField] private TextMeshProUGUI buildingNextLevelText;
+    [SerializeField] private TextMeshProUGUI buildingCostText;
+    [SerializeField] private TextMeshProUGUI buildingCurrentCoinGenerationText;
+    [SerializeField] private TextMeshProUGUI buildingNextCoinGenerationText;
+    [SerializeField] private TextMeshProUGUI buildingHeartGemCostText;
+    [SerializeField] private GameObject buildingDisplayPanel;
+    [SerializeField] private UpgradeButtonScript upgradeButton;
+    [SerializeField] private BuildingScript buildingScript;
 
     void Start()
     {
@@ -128,6 +121,11 @@ public class UpgradeScript : MonoBehaviour, IDataPersistence
       buildingNextCoinGenerationText.text = ("MAX UPGRADE REACHED");
 
       buildingHeartGemCostText.text = ("N/A");
+   }
+
+   public long getCurrencyIncrease()
+   {
+      return this.currencyIncrease;
    }
 
    public void LoadData(GameData data)

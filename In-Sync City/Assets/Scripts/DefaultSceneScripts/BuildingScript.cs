@@ -25,7 +25,7 @@ public class BuildingScript : MonoBehaviour
     void Update()
     {
 
-        long addedCurrency = upgrade.currencyIncrease;
+        long addedCurrency = upgrade.getCurrencyIncrease();
 
         Application.runInBackground = true;
         

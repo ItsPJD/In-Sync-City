@@ -12,20 +12,20 @@ using System.IO;
 
 public class UIMenu : MonoBehaviour, IDataPersistence
 {
-    public TMP_InputField hoursInput;
-    public TMP_InputField minutesInput;
-    public GameObject dateTimePrefab;
-    public Transform dateTimeContainer;
+    [SerializeField] private TMP_InputField hoursInput;
+    [SerializeField] private TMP_InputField minutesInput;
+    [SerializeField] private GameObject dateTimePrefab;
+    [SerializeField] private Transform dateTimeContainer;
 
-    public GameObject dateTimePrefabTemplate;
+    [SerializeField] private GameObject dateTimePrefabTemplate;
 
-    public int minTimes = 3;
-    public int maxTimes = 10;
+    [SerializeField] private int minTimes = 4;
+    [SerializeField] private int maxTimes = 10;
 
-    public TextMeshProUGUI errorMessage;
+    [SerializeField] private TextMeshProUGUI errorMessage;
 
-    public HealthScript healthScript;
-    public Slider workOrRelaxSlider;
+    [SerializeField] private HealthScript healthScript;
+    [SerializeField] private Slider workOrRelaxSlider;
 
     private List<GameObject> dateTimeList = new List<GameObject>();
 
@@ -117,7 +117,7 @@ public class UIMenu : MonoBehaviour, IDataPersistence
 
         if(listCount <= minTimes)
         {
-            Debug.Log("You have to have a minimum of 3 times!");
+            Debug.Log("You have to have a minimum of 4 times!");
         }
 
         else

@@ -35,5 +35,15 @@ public class GameData
         this.upgradeCostHeartgems = new SerializableDictionary<string, int>();
         this.dateTimeListData = new List<String>();
         this.dateTimeWorkOrRelax = new List<float>();
+
+        this.dateTimeListData.Add("09:00");
+        this.dateTimeListData.Add("12:00");
+        this.dateTimeListData.Add("13:00");
+        this.dateTimeListData.Add("17:00");
+
+        this.dateTimeWorkOrRelax.Add(1);
+        this.dateTimeWorkOrRelax.Add(0);
+        this.dateTimeWorkOrRelax.Add(1);
+        this.dateTimeWorkOrRelax.Add(0);
     }
 }
