@@ -6,8 +6,9 @@ using UnityEngine.UI;
 using System.Linq;
 using JetBrains.Annotations;
 using TMPro;
+using UnityEngine.SceneManagement;
 
-public class HealthScript : MonoBehaviour
+public class HealthScript : MonoBehaviour, IDataPersistence
 {
     private int playerHealth = 10;
     private bool timerStarted = false;
@@ -87,6 +88,11 @@ public class HealthScript : MonoBehaviour
                 Debug.Log("Time button was not pressed in time!");
                 timeButtonPressFailure();
             }
+        }
+
+        if(playerHealth <= 0)
+        {
+            OnDeath();
         }
     }
     public void OnTimeButtonPress()
@@ -174,6 +180,16 @@ public class HealthScript : MonoBehaviour
 
     public void OnDeath()
     {
+        Debug.Log("Player has died!");
+    }
 
+    public void LoadData(GameData data)
+    {
+        this.playerHealth = data.playerHealth;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.playerHealth = this.playerHealth;
     }
 }

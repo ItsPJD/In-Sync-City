@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    public int playerHealth;
     public long lastUpdated;
     public long totalCurrency;
     public int totalHeartgems;
@@ -26,6 +27,7 @@ public class GameData
 //This constructor is called whenever no data is found in the data file for the game, and this resets values back to default.
     public GameData()
     {
+        this.playerHealth = 10;
         this.totalCurrency = 0;
         this.totalHeartgems = 0;
         this.isOwned = new SerializableDictionary<string, bool>();
