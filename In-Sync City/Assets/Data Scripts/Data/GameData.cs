@@ -23,8 +23,6 @@ public class GameData
     public List<String> dateTimeListData;
     
     public List<float> dateTimeWorkOrRelax;
-    public int resolutionIndex;
-
 
 
 //This constructor is called whenever no data is found in the data file for the game, and this resets values back to default.
@@ -51,6 +49,5 @@ public class GameData
         this.dateTimeWorkOrRelax.Add(1);
         this.dateTimeWorkOrRelax.Add(0);
 
-        this.resolutionIndex = 0;
     }
 }
