@@ -14,15 +14,15 @@ public class AddBuilding : MonoBehaviour, IDataPersistence
 
    [SerializeField] private string id;
 
-    public GameObject building;
+    [SerializeField] private GameObject building;
 
-    public GameObject buildingButton;
+    [SerializeField] private GameObject buildingButton;
 
-    public GameObject upgradeButton;
+    [SerializeField] private GameObject upgradeButton;
 
-    public long buildingCost = 0;
+    [SerializeField] private long buildingCost = 0;
 
-    public TextMeshProUGUI buildingCostText;
+    [SerializeField] private TextMeshProUGUI buildingCostText;
 
     public CurrencyScript currencyScript;
 
@@ -30,7 +30,7 @@ public class AddBuilding : MonoBehaviour, IDataPersistence
 
     public void PlaceBuilding()
      {
-        long totalAmount = currencyScript.totalCurrency;
+        long totalAmount = currencyScript.GetCurrency();
 
         if(buildingCost > totalAmount)
         {

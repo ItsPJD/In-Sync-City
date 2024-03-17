@@ -40,9 +40,9 @@ public class UpgradeScript : MonoBehaviour, IDataPersistence
     }
     public void UpgradeBuilding()
      {
-         long totalAmount = currencyScript.totalCurrency;
+         long totalAmount = currencyScript.GetCurrency();
 
-         int totalHeartgems = currencyScript.totalHeartgems;
+         int totalHeartgems = currencyScript.GetHeartgems();
 
          if(currentLvl >= maxLvl)
          {

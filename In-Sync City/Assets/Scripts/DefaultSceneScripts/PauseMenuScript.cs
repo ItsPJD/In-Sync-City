@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class PauseMenuScript : MonoBehaviour
 {
-    public GameObject pausePanel;
-    public GameObject pauseContainer;
-    public Button resumeButton;
-    public Button settingsButton;
-    public Button exitToMenuButton;
-    public Button exitToDesktopButton;
-    public GameObject exitToMenuContainer;
-    public GameObject exitToDesktopContainer;
-    public GameObject settingsContainer;
+    [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject pauseContainer;
+    [SerializeField] private Button resumeButton;
+    [SerializeField] private Button settingsButton;
+    [SerializeField] private Button exitToMenuButton;
+    [SerializeField] private Button exitToDesktopButton;
+    [SerializeField] private GameObject exitToMenuContainer;
+    [SerializeField] private GameObject exitToDesktopContainer;
+    [SerializeField] private GameObject settingsContainer;
     private bool isPaused;
 
     private void Awake()

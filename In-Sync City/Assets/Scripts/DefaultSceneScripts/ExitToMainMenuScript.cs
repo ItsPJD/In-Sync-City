@@ -5,9 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class ExitToMainMenuScript : MonoBehaviour
 {
-    public GameObject exitMenuContainer;
-    public Button noButton;
-    public Button confirmButton;
+    [SerializeField] private GameObject exitMenuContainer;
 
     public void OnNoClick()
     {
@@ -21,4 +19,5 @@ public class ExitToMainMenuScript : MonoBehaviour
 
         Debug.Log("Going to the main menu!");
     }
+
 }

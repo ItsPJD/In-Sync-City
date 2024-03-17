@@ -10,25 +10,25 @@ using UnityEngine.SceneManagement;
 
 public class HealthScript : MonoBehaviour, IDataPersistence
 {
-    private int playerHealth = 10;
+    [SerializeField] private int playerHealth = 10;
     private bool timerStarted = false;
     private bool calledTimer = false;
     private float startTimer;
-    public float timeLimit = 60f;
-    public TextMeshProUGUI healthText;
+    [SerializeField] private float timeLimit = 60f;
+    [SerializeField] private TextMeshProUGUI healthText;
     public UIMenu uiMenu;
     private List<DateTime> healthTimeData;
     private List<float> healthTimeWorkOrRelax;
-    public GameObject timeButton;
+    [SerializeField] private GameObject timeButton;
     public CurrencyScript currencyScript;
 
-    public GameObject workObject;
+    [SerializeField] private GameObject workObject;
 
-    public GameObject relaxObject;
+    [SerializeField] private GameObject relaxObject;
+
+    [SerializeField] private GameObject deathPanel;
 
     private int heartgemIncrease = 3;
-
-    private DateTime matchedTime;
 
 
     private void Awake()
@@ -54,6 +54,8 @@ public class HealthScript : MonoBehaviour, IDataPersistence
         {
             Debug.Log("Invalid or empty data obtained from uiMenu.");
         }
+
+        deathPanel.SetActive(false);
     }
 
     private void Update()
@@ -181,6 +183,8 @@ public class HealthScript : MonoBehaviour, IDataPersistence
     public void OnDeath()
     {
         Debug.Log("Player has died!");
+        deathPanel.SetActive(true);
+
     }
 
     public void LoadData(GameData data)

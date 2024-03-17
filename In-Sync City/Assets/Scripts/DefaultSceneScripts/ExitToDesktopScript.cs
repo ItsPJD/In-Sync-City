@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class ExitToDesktopScript : MonoBehaviour
 {
-    public GameObject exitDesktopContainer;
-    public Button noButton;
-    public Button confirmButton;
+    [SerializeField] private GameObject exitDesktopContainer;
+    [SerializeField] private Button noButton;
+    [SerializeField] private Button confirmButton;
 
     public void OnNoClick()
     {

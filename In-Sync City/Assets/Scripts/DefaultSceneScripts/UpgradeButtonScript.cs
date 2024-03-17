@@ -7,7 +7,7 @@ public class UpgradeButtonScript : MonoBehaviour
 {
     private UpgradeScript targetBuilding;
 
-    public Button upgradeButton;
+    [SerializeField] private Button upgradeButton;
 
     public void UpgradeActivated()
     {

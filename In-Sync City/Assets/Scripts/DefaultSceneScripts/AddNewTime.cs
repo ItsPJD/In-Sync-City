@@ -7,7 +7,7 @@ using TMPro;
 
 public class AddNewTime : MonoBehaviour
 {
-    public GameObject menuPanel;
+    [SerializeField] private GameObject menuPanel;
 
     private void Start()
     {

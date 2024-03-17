@@ -8,9 +8,9 @@ using UnityEngine;
 public class CurrencyScript : MonoBehaviour, IDataPersistence
 {
 
-    public long totalCurrency = 0;
+    [SerializeField] private long totalCurrency = 0;
 
-    public int totalHeartgems = 0;
+    [SerializeField] private int totalHeartgems = 0;
 
     public TextMeshProUGUI currencyText;
 
@@ -36,6 +36,16 @@ public class CurrencyScript : MonoBehaviour, IDataPersistence
     {
         totalHeartgems -= spentHeartgems;
         Debug.Log("Heartgems Spent");
+    }
+
+    public long GetCurrency()
+    {
+        return this.totalCurrency;
+    }
+
+    public int GetHeartgems()
+    {
+        return this.totalHeartgems;
     }
 
 

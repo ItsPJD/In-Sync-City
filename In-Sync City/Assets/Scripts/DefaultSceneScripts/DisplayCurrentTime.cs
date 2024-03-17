@@ -8,7 +8,7 @@ using TMPro;
 public class DisplayCurrentTime : MonoBehaviour
 {
 
-    public TextMeshProUGUI textbox;
+    [SerializeField] private TextMeshProUGUI textbox;
 
     void Update()
     {

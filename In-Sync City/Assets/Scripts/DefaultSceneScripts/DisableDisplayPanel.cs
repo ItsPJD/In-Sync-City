@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DisableDisplayPanel : MonoBehaviour
 {
-    public GameObject buildingDisplayPanel;
+    [SerializeField] private GameObject buildingDisplayPanel;
    public void OnExitDisplay()
    {
       buildingDisplayPanel.SetActive(false);
