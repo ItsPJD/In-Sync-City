@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// This script provides similar functionality to the pause menu script, except for the main menu.
 public class MainMenuExitScript : MonoBehaviour
 {
     public GameObject quitPanel;

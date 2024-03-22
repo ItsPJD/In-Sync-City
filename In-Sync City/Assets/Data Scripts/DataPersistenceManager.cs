@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class DataPersistenceManager : MonoBehaviour
 {
+//These settings are here for debugging purposes, in order to test data persistence and functionality.
     [Header("Debugging")]
     [SerializeField] private bool disableDataPersistence = false;
     [SerializeField] private bool allowDataTestingInScene = false;
-//The header is here to give overall explanation in the editor to what the file name variable is for.
+
 // The SerializeField here allows for the fileName to be set and changed in the editor, but still allows for the variable to be set to private so that it cannot be changed by any other script.
     [Header("File Storage Config")]
     [SerializeField] private string fileName;
@@ -25,6 +26,7 @@ public class DataPersistenceManager : MonoBehaviour
     private string selectedProfileId = "";
     public static DataPersistenceManager instance {get; private set; }
 
+// This awake method makes sure that only one DataPersistenceManager is in a scene at one time.
     private void Awake()
     {
         if(instance != null)
@@ -41,12 +43,13 @@ public class DataPersistenceManager : MonoBehaviour
             Debug.LogWarning("Data persistence has been disabled!");
         }
 
-        //When the game starts, the path for the file in which the data is stored becomes equal to the variable name "dataHandler".
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
 
         this.selectedProfileId = dataHandler.GetLastUpdatedProfileId();
     }
 
+// This section ensures that whenever the game is opened, it correctly loads the scenes, performs the load and save methods so that all save files can be correctly shown and displayed, 
+// and then unloads them again.
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -55,8 +58,7 @@ public class DataPersistenceManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("OnSceneLoaded is called");
-        //dataPersistenceObjects becomes equal to the return value of the method "FindAllDataPersistenceObjects".
-        //the LoadGame method is called, which will either load previously saved data that was stored, or call the NewGame method if no data was found.
+
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
         LoadGame();
     }
@@ -73,17 +75,21 @@ public class DataPersistenceManager : MonoBehaviour
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
+//This method changes which profile (save file) has been selected by the user.
     public void ChangeSelectedProfileId(string newProfileId)
     {
         this.selectedProfileId = newProfileId;
         LoadGame();
     }
+
+//Overwrites the save data on the currently selected save file by using the default data in GameData.
     public void NewGame()
     {
-        //Called if data in GameData is equal to "null" (there is no data). The gameData variable becomes equal to the values stored in the GameData method in the GameData script, which holds the default values for all data stored there.
         this.gameData = new GameData();
     }
 
+//The save game method finds all the scripts that have IDataPersistence attached to them, and calls the SaveData method on them. Then, it calls the Save method in
+// the data handler so that all that data can be correctly saved to a Json string file.
     public void SaveGame()
     {
         if(disableDataPersistence)
@@ -107,6 +113,7 @@ public class DataPersistenceManager : MonoBehaviour
         dataHandler.Save(gameData, selectedProfileId);
     }
 
+// Similar to the SaveGame method, except it reads the save file and performs the loadData method in each script that contains IDataPersistence, to correctly load the saved data to the game.
     public void LoadGame()
     {
         if(disableDataPersistence)
@@ -116,21 +123,17 @@ public class DataPersistenceManager : MonoBehaviour
 
         this.gameData = dataHandler.Load(selectedProfileId);
 
-        //This is for debugging. If we want to test the default screen scene on its own without going through the menu to have game data to load, we can use this to bypass this issue and allow testing
-        // of data persistence without the main menu scene.
         if (this.gameData == null && allowDataTestingInScene)
         {
             NewGame();
         }
 
-        //if there is no data, will send a debug log stating a new game needs to be started, and will return so that the rest of the method cannot run and produce any errors regarding abscence of data.
         if(this.gameData == null)
         {
             Debug.Log("No data was found to load. A new game should be started in order to continue.");
             return;
         }
 
-        //For every script that utilises IDataPersistence for saving and loading data, this for loop will attempt to call the LoadData method in each of those scripts in order to correctly fill the loading scene with the data stored in the save file.
         foreach (IDataPersistence dataPersistObj in dataPersistenceObjects)
         {
             dataPersistObj.LoadData(gameData);
@@ -157,6 +160,7 @@ public class DataPersistenceManager : MonoBehaviour
         return gameData != null;
     }
 
+// Calls the data handler method that returns a dictionary containing every profile and its saved data.
     public Dictionary<string, GameData> GetAllProfilesGameData()
     {
         return dataHandler.LoadAllProfiles();

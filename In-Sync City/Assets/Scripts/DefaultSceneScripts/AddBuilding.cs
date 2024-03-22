@@ -12,6 +12,8 @@ using UnityEngine.UI;
 public class AddBuilding : MonoBehaviour, IDataPersistence
 {
 
+// This script handles the placement of buildings. In particular, it uses IDataPersistence to determine whether a certain building
+// has been bought or not.
    [SerializeField] private string id;
 
     [SerializeField] private GameObject building;
@@ -60,7 +62,6 @@ public class AddBuilding : MonoBehaviour, IDataPersistence
         upgradeButton.SetActive(true);
         Debug.Log(isOwned);
 
-        //Debug.Log("The building is now set to be active");
      }
 
    public void LoadData(GameData data)

@@ -5,6 +5,8 @@ using TMPro;
 using TMPro.Examples;
 using UnityEngine;
 
+//This script handles both currencies, both with the display of them as well as handling the saving
+// of that data to the GameData save file.
 public class CurrencyScript : MonoBehaviour, IDataPersistence
 {
 

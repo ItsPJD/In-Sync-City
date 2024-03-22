@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// This script handles the upgrading of buildings, based upon the building selected. 
 public class UpgradeButtonScript : MonoBehaviour
 {
     private UpgradeScript targetBuilding;

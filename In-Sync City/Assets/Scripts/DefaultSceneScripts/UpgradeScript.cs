@@ -38,6 +38,9 @@ public class UpgradeScript : MonoBehaviour, IDataPersistence
     {
       buildingDisplayPanel.SetActive(false);
     }
+
+// This method handles the upgrading of buildins themselves, checking whether they have reached the max level or if they cannot afford the upgrade.
+// If neither of these are true, then it will correctly upgrade that building, as well as remove the appropriate currency for payment of that upgrade.
     public void UpgradeBuilding()
      {
          long totalAmount = currencyScript.GetCurrency();
@@ -77,18 +80,26 @@ public class UpgradeScript : MonoBehaviour, IDataPersistence
 
      }
    
+   // This method is called when a user clicks on a building, and sets the target building so that the correct building's info is displayed. It then displays the panel
+   // so the user can see this information directly.
    public void OnClickBuilding()
    {
       upgradeButton.setTargetBuilding(this);
       buildingDisplayPanel.SetActive(true);
+      if(currentLvl >= maxLvl)
+      {
+         displayMaxInfo();
+      }
       displayPanelInfo();
    }
 
+//This method closes the building display.
    public void OnExitDisplay()
    {
       buildingDisplayPanel.SetActive(false);
    }
 
+// This method handles the display of all the information of a building, within the building display panel.
    private void displayPanelInfo()
    {
       buildingNameText.text = buildingName;
@@ -108,6 +119,7 @@ public class UpgradeScript : MonoBehaviour, IDataPersistence
 
    }
 
+// This method is displayed when the maximum level of a building has been reached.
    private void displayMaxInfo()
    {
       buildingNameText.text = buildingName;
@@ -123,6 +135,8 @@ public class UpgradeScript : MonoBehaviour, IDataPersistence
       buildingHeartGemCostText.text = ("N/A");
    }
 
+// This method returns the value of how much currency this building produces, which is used in the building script to determine
+// how much should be given to the user for each time interval.
    public long getCurrencyIncrease()
    {
       return this.currencyIncrease;

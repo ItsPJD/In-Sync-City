@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using System;
 
+//This script handles the generation of currency from a building, taking into account the upgrade increase,
+// as well as depositing it into the overall currency in the currency script.
 public class BuildingScript : MonoBehaviour
 {
     private float timeSinceLastCurrency;

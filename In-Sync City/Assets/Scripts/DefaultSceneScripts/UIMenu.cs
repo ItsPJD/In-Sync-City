@@ -41,10 +41,13 @@ public class UIMenu : MonoBehaviour, IDataPersistence
         dateTimePrefabTemplate.SetActive(false);
     }
 
+//The set time method parses the inputted text for saving a time into string values. It then checks to make sure that the numbers
+// inputted are within 0 - 23 for hours and 0 - 59 for minutes. It then makes this into a DateTime data type value, and saves it to
+// the dateTime list. From there, it also sets the value of if its a work or relax time, and sends this information to the health script.
+// It then also creates a new dateTime element.
     public void SetTime()
     {
 
-        // if statement for checking max amount of times to be added. max amount of times = 10 (for now). Also make min amount of times, no less than two times on a schedule.
         int listCount = dateTimeListData.Count;
 
         if (listCount >= maxTimes)
@@ -61,7 +64,6 @@ public class UIMenu : MonoBehaviour, IDataPersistence
             if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59)
             {
                 
-                // Calculate and display the time
                 string time = $"{hours:D2}:{minutes:D2}";
                 DateTime parsedTime = DateTime.Parse(time);
 
@@ -105,12 +107,15 @@ public class UIMenu : MonoBehaviour, IDataPersistence
         }
     }
 
+// This method closes the menu for adding times.
     public void CloseMenu()
     {
-        // Hide the menu panel
         gameObject.SetActive(false);
     }
 
+// This method removes a time according to the gameObject passed in as a parameter. It checks what time was saved on that gameObject,
+// and from there finds it in the dateTimeList. It then removes both that time and the gameObject from their respective lists, and updates
+// the health script with this information.
     public void RemoveTime(GameObject dateTimeElement)
     {
         int listCount = dateTimeListData.Count;
@@ -125,13 +130,11 @@ public class UIMenu : MonoBehaviour, IDataPersistence
             TextMeshProUGUI textComponent = dateTimeElement.GetComponentInChildren<TextMeshProUGUI>();
             string timeText = textComponent.text;
 
-            // Find and remove the corresponding DateTime from the list
             DateTime timeToRemove = DateTime.ParseExact(timeText, "HH:mm", System.Globalization.CultureInfo.InvariantCulture);
             int indexOfRemoveTime = dateTimeListData.IndexOf(timeToRemove);
             dateTimeListWorkOrRelax.RemoveAt(indexOfRemoveTime);
             dateTimeListData.Remove(timeToRemove);
 
-            // Remove the UI element from the list and destroy the GameObject
             dateTimeList.Remove(dateTimeElement);
             Destroy(dateTimeElement);
 
@@ -142,6 +145,8 @@ public class UIMenu : MonoBehaviour, IDataPersistence
 
     }
 
+// Tihs method is used to create all the GameObject versions of the times saved by the user. It goes through each time saved in the data list,
+// and from there creates a gameObject using a prefab that is applied in the Unity Editor.
     private void CreateDateTimeUIElement(DateTime parsedTime)
     {
 
@@ -155,16 +160,15 @@ public class UIMenu : MonoBehaviour, IDataPersistence
 
         dateTimeList.Add(dateTimeElement);
 
-        // Sort dateTimeUIElements based on the time of day
         dateTimeList = dateTimeList.OrderBy(e => DateTime.Parse(e.GetComponentInChildren<TextMeshProUGUI>().text)).ToList();
 
-        // Rearrange UI elements
         for (int i = 0; i < dateTimeList.Count; i++)
         {
             dateTimeList[i].transform.SetSiblingIndex(i);
         }
     }
 
+// These methods get the values of the dateTime data, as well as the workOrRelax data. 
     public List<DateTime> GetDateTimeListData()
     {
         return this.dateTimeListData;
@@ -175,6 +179,7 @@ public class UIMenu : MonoBehaviour, IDataPersistence
         return this.dateTimeListWorkOrRelax;
     }
 
+// This method initialises the health time data, ensuring that it has the correct information at the start of the game.
     public void InitialiseHealthScriptData()
     {
         healthScript.StartInitialize();

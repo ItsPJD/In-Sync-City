@@ -32,6 +32,8 @@ public class SaveSlot : MonoBehaviour
         isShowingTime = false;
     }
 
+// This method sets the data for each save file shown in both the new game and load game menus. If there is no data in a file, then it will show the noData version of the display.
+// Otherwise, it will display the coins and heartgems gained, as well as each saved time.
     public void SetData(GameData data)
     {
         if(data == null)
@@ -58,16 +60,20 @@ public class SaveSlot : MonoBehaviour
         }
     }
 
+//This method returns the profile id of this save slot.
     public string GetProfileId()
     {
         return this.profileId;
     }
 
+//This method toggles whether or not the save slot can be interacted with or not.
     public void SetInteractable(bool interactable)
     {
         saveSlotButton.interactable = interactable;
     }
 
+// This method is similar to the UIMenu version, used in the main scene. It creates the gameObject elements for
+// each time that has been saved, so they can be displayed to the user.
     private void SetTimeLineComponent(DateTime parsedTime)
     {
         if(isShowingTime)

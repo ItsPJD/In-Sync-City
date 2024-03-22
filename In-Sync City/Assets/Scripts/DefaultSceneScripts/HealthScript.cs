@@ -30,7 +30,7 @@ public class HealthScript : MonoBehaviour, IDataPersistence
 
     private int heartgemIncrease = 3;
 
-
+// The awake method here makes sure that all buttons and objects related to health, as well as the work and relax objects are set to their default.
     private void Awake()
     {
         timeButton.SetActive(false);
@@ -39,6 +39,8 @@ public class HealthScript : MonoBehaviour, IDataPersistence
         relaxObject.SetActive(false);
     }
 
+// The health script gets its own, updated versions of the times saved by the user, so they can be compared to the current time. This also helps to set the values
+// of the work and relax objects, as to which one should be active.
     public void StartInitialize()
     {
         healthTimeData = uiMenu.GetDateTimeListData();
@@ -58,6 +60,7 @@ public class HealthScript : MonoBehaviour, IDataPersistence
         deathPanel.SetActive(false);
     }
 
+// The update method checks if any of the times saved by the user matches the current time. If it does, then the timer for the health button is activated.
     private void Update()
     {
         healthText.text = playerHealth.ToString();
@@ -97,6 +100,9 @@ public class HealthScript : MonoBehaviour, IDataPersistence
             OnDeath();
         }
     }
+
+// This method is called when the user clicks the health button before the timer expires. This grants them health as well as heartgems. It also
+// ensures that the player does not exceed 10 health.
     public void OnTimeButtonPress()
     {
         playerHealth += 1;
@@ -111,6 +117,7 @@ public class HealthScript : MonoBehaviour, IDataPersistence
 
     }
 
+// This method is called if the timer expires before the user clicks the health button. One health is removed from the player, and the button is deactivated.
     public void timeButtonPressFailure()
     {
         playerHealth -= 1;
@@ -118,6 +125,7 @@ public class HealthScript : MonoBehaviour, IDataPersistence
         timerStarted = false;
     }
 
+// This method starts the timer for the health button.
     public void ActivateTimer()
     {
         timeButton.SetActive(true);
@@ -125,6 +133,8 @@ public class HealthScript : MonoBehaviour, IDataPersistence
         timerStarted = true;       
     }
 
+// These methods set the data for the health versions of the saved times and whether they are working or relaxing. These
+// get called whenever the time data is updated, such as when a user adds or removes a time.
     public void SetHealthTimeData(List<DateTime> newDateTimeData)
     {
         healthTimeData = newDateTimeData;
@@ -135,11 +145,13 @@ public class HealthScript : MonoBehaviour, IDataPersistence
         healthTimeWorkOrRelax = newDateTimeWorkOrRelax;
     }
 
+// This method is called in order to start the searcch for finding the closest time.
     public void ActivateFindClosestDateTime()
     {
         FindClosestDateTime(healthTimeData);
     }
 
+//This method determines whether the work or relax object should be active and which one should not be.
     private void WorkOrRelax(float workOrRelaxValue)
     {
         if(workOrRelaxValue == 1)
@@ -155,6 +167,8 @@ public class HealthScript : MonoBehaviour, IDataPersistence
         }
     }
 
+//This method is used to determine which saved time is "closest" to the current time, in terms of which saved time was the last one that matched. This helps
+// to decide which object, work or relax, should be active at the current time.
     private void FindClosestDateTime(List<DateTime> dateTimeList)
     {
         DateTime currentTime = DateTime.Now;
@@ -164,10 +178,8 @@ public class HealthScript : MonoBehaviour, IDataPersistence
 
         int indexValueOfClosestTime = healthTimeData.IndexOf(closestDateTime);
 
-        // If indexValueOfClosestTime returns -1, it means that it did not find a time that existed in the list that matched the closestDateTime, which will typically be the "Default" 00:00.
         if(indexValueOfClosestTime <= -1)
         {
-            //If the first time of the day has not been reached once the time reaches 00:00, it will default the work or relax state to the last time in the list, as this will be the one that is continued until the next day.
             float lastDateTimeWorkOrRelax = healthTimeWorkOrRelax.Last();
             WorkOrRelax(lastDateTimeWorkOrRelax);
         }
@@ -179,6 +191,8 @@ public class HealthScript : MonoBehaviour, IDataPersistence
         }
 
     }
+
+    //This method is called when the player's health reaches 0.
 
     public void OnDeath()
     {

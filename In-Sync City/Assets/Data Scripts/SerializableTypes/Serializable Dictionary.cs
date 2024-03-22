@@ -6,6 +6,8 @@ using UnityEngine;
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
 
+// This script allows for Dictionary key/value types to be saved to GameData, and have it then be serialized to a Json string file. This is useful
+// for certain data such as building ownership, to identify if they are owned or not.
     [SerializeField] private List<TKey> keys = new List<TKey>();
 
     [SerializeField] private List<TValue> values = new List<TValue>();

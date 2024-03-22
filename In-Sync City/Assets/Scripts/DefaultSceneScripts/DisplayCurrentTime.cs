@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+//This script handles the display of showing the current time, according to the time displayed on the user's system.
 public class DisplayCurrentTime : MonoBehaviour
 {
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//This script handles the confirmation of exiting to the desktop.
 public class ExitToDesktopScript : MonoBehaviour
 {
     [SerializeField] private GameObject exitDesktopContainer;

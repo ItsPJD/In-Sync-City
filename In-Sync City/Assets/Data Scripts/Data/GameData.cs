@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// All the variables that will be used to save data to for each save file. 
 [System.Serializable]
 public class GameData
 {

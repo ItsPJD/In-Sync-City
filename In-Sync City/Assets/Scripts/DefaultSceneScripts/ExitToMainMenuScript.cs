@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
+//This script handles the confirmation of exiting back to the main menu.
 public class ExitToMainMenuScript : MonoBehaviour
 {
     [SerializeField] private GameObject exitMenuContainer;
